@@ -21,7 +21,7 @@ namespace BSA_2018_Homework_4.BL.Services
 			this.IunitOfWork = IunitOfWork;
 		}
 
-		public List<PlaneDTO> GetPlaneCollection()
+		public async Task<List<PlaneDTO>> GetPlaneCollection()
 		{
 			//List<Plane> temp = IunitOfWork.PlaneRepository.GetAll();
 			//List<PlaneDTO> selected = Mapper.Map<List<Plane>, List<PlaneDTO>>(temp);
@@ -35,10 +35,10 @@ namespace BSA_2018_Homework_4.BL.Services
 
 			//return selected;
 
-			return Mapper.Map<List<Plane>, List<PlaneDTO>>(IunitOfWork.PlaneRepository.GetAll());
+			return Mapper.Map<List<Plane>, List<PlaneDTO>>(await IunitOfWork.PlaneRepository.GetAll());
 
 		}
-		public PlaneDTO GetPlaneById(int id)
+		public async Task<PlaneDTO> GetPlaneById(int id)
 		{
 			//Plane temp = IunitOfWork.PlaneRepository.Get(id);
 			//PlaneDTO selected = Mapper.Map<Plane, PlaneDTO>(temp);
@@ -52,13 +52,13 @@ namespace BSA_2018_Homework_4.BL.Services
 			//{
 			//	throw new Exception();
 			//}
-			return Mapper.Map<Plane, PlaneDTO>(IunitOfWork.PlaneRepository.Get(id));
+			return Mapper.Map<Plane, PlaneDTO>(await IunitOfWork.PlaneRepository.Get(id));
 		}
-		public void DeletePlaneById(int id)
+		public async Task DeletePlaneById(int id)
 		{
-			IunitOfWork.PlaneRepository.Delete(id);
+			await IunitOfWork.PlaneRepository.Delete(id);
 		}
-		public void CreatePlane(PlaneDTO item)
+		public async Task CreatePlane(PlaneDTO item)
 		{
 			//Plane temp = Mapper.Map<PlaneDTO, Plane>(item);
 			//temp.Type = IunitOfWork.PlaneTypeRepository.Get(item.Type);
@@ -71,12 +71,12 @@ namespace BSA_2018_Homework_4.BL.Services
 			//	throw new Exception();
 			//}
 
-			IunitOfWork.PlaneRepository.Create(Mapper.Map<PlaneDTO, Plane>(item));
+			await IunitOfWork.PlaneRepository.Create(Mapper.Map<PlaneDTO, Plane>(item));
 
 		}
-		public void UpdatePlane(int id, PlaneDTO item)
+		public async Task UpdatePlane(int id, PlaneDTO item)
 		{
-			IunitOfWork.PlaneRepository.Update(id, Mapper.Map<PlaneDTO, Plane>(item));
+			await IunitOfWork.PlaneRepository.Update(id, Mapper.Map<PlaneDTO, Plane>(item));
 		}
 
 	}

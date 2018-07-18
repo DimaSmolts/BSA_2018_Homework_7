@@ -8,10 +8,10 @@ namespace BSA_2018_Homework_4.BL.ServiceInterfaces
 {
     public interface IStewardessService
     {
-		List<StewardessDTO> GetStewardessCollection();
-		StewardessDTO GetStewardessById(int id);
-		void DeleteStewardessById(int id);
-		void CreateStewardess(StewardessDTO item);
-		void UpdateStewardess(int id, StewardessDTO item);
+		Task<List<StewardessDTO>> GetStewardessCollection();
+		Task<StewardessDTO> GetStewardessById(int id);
+		Task DeleteStewardessById(int id);
+		Task CreateStewardess(StewardessDTO item);
+		Task UpdateStewardess(int id, StewardessDTO item);
 	}
 }

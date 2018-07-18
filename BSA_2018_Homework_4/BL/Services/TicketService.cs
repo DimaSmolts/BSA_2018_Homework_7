@@ -19,7 +19,7 @@ namespace BSA_2018_Homework_4.BL.Services
 			this.IunitOfWork = IunitOfWork;
 		}
 
-		public List<TicketDTO> GetTicketCollection()
+		public async Task<List<TicketDTO>> GetTicketCollection()
 		{
 			//List<Ticket> temp = IunitOfWork.TicketRepository.GetAll();
 			//List<TicketDTO> selected = Mapper.Map<List<Ticket>, List<TicketDTO>>(temp);
@@ -33,10 +33,10 @@ namespace BSA_2018_Homework_4.BL.Services
 			//}
 			//return selected;
 
-			return Mapper.Map<List<Ticket>, List<TicketDTO>>(IunitOfWork.TicketRepository.GetAll());
+			return Mapper.Map<List<Ticket>, List<TicketDTO>>(await IunitOfWork.TicketRepository.GetAll());
 
 		}
-		public TicketDTO GetTicketById(int id)
+		public async Task<TicketDTO> GetTicketById(int id)
 		{
 			//Ticket temp = IunitOfWork.TicketRepository.Get(id);
 			//TicketDTO selected = Mapper.Map<Ticket, TicketDTO>(temp);
@@ -51,14 +51,14 @@ namespace BSA_2018_Homework_4.BL.Services
 			//	throw new Exception();
 			//}
 
-			return Mapper.Map<Ticket, TicketDTO>(IunitOfWork.TicketRepository.Get(id)); 
+			return Mapper.Map<Ticket, TicketDTO>( await IunitOfWork.TicketRepository.Get(id)); 
 			
 		}
-		public void DeleteTicketById(int id)
+		public async Task DeleteTicketById(int id)
 		{
-			IunitOfWork.TicketRepository.Delete(id);
+			await IunitOfWork.TicketRepository.Delete(id);
 		}
-		public void CreateTicket(TicketDTO item)
+		public async Task CreateTicket(TicketDTO item)
 		{
 			//Ticket temp = Mapper.Map<TicketDTO, Ticket>(item);
 			//temp.FlightNum = IunitOfWork.FlightRepository.Get(item.FlightNum);
@@ -71,14 +71,14 @@ namespace BSA_2018_Homework_4.BL.Services
 			//	throw new Exception();
 			//}
 
-			IunitOfWork.TicketRepository.Create(Mapper.Map<TicketDTO, Ticket>(item));
+			await IunitOfWork.TicketRepository.Create(Mapper.Map<TicketDTO, Ticket>(item));
 
 
 			
 		}
-		public void UpdateTicket(int id, TicketDTO item)
+		public async Task UpdateTicket(int id, TicketDTO item)
 		{
-			IunitOfWork.TicketRepository.Update(id, Mapper.Map<TicketDTO, Ticket>(item));
+			await IunitOfWork.TicketRepository.Update(id, Mapper.Map<TicketDTO, Ticket>(item));
 		}
 	}
 }

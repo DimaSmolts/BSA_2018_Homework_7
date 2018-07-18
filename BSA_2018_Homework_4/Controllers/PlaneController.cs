@@ -21,67 +21,65 @@ namespace BSA_2018_Homework_4.Controllers
 
         // GET: api/Plane
         [HttpGet]
-        public IEnumerable<PlaneDTO> Get()
+        public async Task<IActionResult> Get()
         {
-			IEnumerable<PlaneDTO> temp = planeService.GetPlaneCollection();
+			List<PlaneDTO> temp = await planeService.GetPlaneCollection();
 
 			if (temp != null)
-				Response.StatusCode = 200;
+				return Ok(temp);
 			else
-				Response.StatusCode = 404;
-
-			return temp;
+				return BadRequest();
 		}
 
         // GET: api/Plane/5
         [HttpGet("{id}")]
-        public PlaneDTO Get(int id)
+        public async Task<IActionResult> Get(int id)
         {
-			PlaneDTO temp = planeService.GetPlaneById(id);
+			PlaneDTO temp = await planeService.GetPlaneById(id);
 
 			if (temp != null)
-				Response.StatusCode = 200;
+				return Ok(temp);
 			else
-				Response.StatusCode = 404;
-
-			return temp;
+				return BadRequest();
 		}
         
         // POST: api/Plane
         [HttpPost]
-        public void Post([FromBody]PlaneDTO plane)
+        public async Task<IActionResult> Post([FromBody]PlaneDTO plane)
         {
 			if (ModelState.IsValid)
 			{
-				Response.StatusCode = 200;
-				planeService.CreatePlane(plane);
+				//Response.StatusCode = 200;
+				await planeService.CreatePlane(plane);
+				return Ok(plane);
 			}
 			else
 			{
-				Response.StatusCode = 400;
+				return BadRequest();
 			}			
         }
         
         // PUT: api/Plane/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody]PlaneDTO plane)
+        public async Task<IActionResult> Put(int id, [FromBody]PlaneDTO plane)
         {
 			if (ModelState.IsValid)
 			{
-				Response.StatusCode = 200;
-				planeService.UpdatePlane(id, plane);
+				//Response.StatusCode = 200;
+				await planeService.UpdatePlane(id, plane);
+				return Ok(plane);
 			}
 			else
 			{
-				Response.StatusCode = 400;
-			}			
-        }
+				return BadRequest();
+			}
+		}
         
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task Delete(int id)
         {
-			planeService.DeletePlaneById(id);
+			await planeService.DeletePlaneById(id);
         }
     }
 }

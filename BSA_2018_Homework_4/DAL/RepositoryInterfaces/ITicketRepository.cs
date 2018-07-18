@@ -8,10 +8,10 @@ namespace BSA_2018_Homework_4.DAL.RepositoryInterfaces
 {
 	public interface ITicketRepository
     {
-		List<Ticket> GetAll();
-		Ticket Get(int id);
-		void Delete(int id);
-		void Create(Ticket item);
-		void Update(int id, Ticket item);
+		Task<List<Ticket>> GetAll();
+		Task<Ticket> Get(int id);
+		Task Delete(int id);
+		Task Create(Ticket item);
+		Task Update(int id, Ticket item);
 	}
 }

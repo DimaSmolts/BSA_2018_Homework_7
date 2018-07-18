@@ -6,6 +6,7 @@ using BSA_2018_Homework_4.DAL.Models;
 using BSA_2018_Homework_4.DAL.RepositoryInterfaces;
 using Newtonsoft.Json;
 using System.IO;
+using Microsoft.EntityFrameworkCore;
 
 namespace BSA_2018_Homework_4.DAL.Repositories
 {
@@ -30,35 +31,35 @@ namespace BSA_2018_Homework_4.DAL.Repositories
 			//	JsonConvert.SerializeObject(stewardesses));
 		}
 
-		public List<Stewardess> GetAll()
+		public async Task<List<Stewardess>> GetAll()
 		{
-			return db.Stewardess.ToList();
+			return await db.Stewardess.ToListAsync();
 		}
 
-		public Stewardess Get(int id)
+		public async Task<Stewardess> Get(int id)
 		{
-			return db.Stewardess.Find(id);
+			return await db.Stewardess.FindAsync(id);
 		}
 
-		public void Delete(int id)
+		public async Task Delete(int id)
 		{
-			Stewardess temp = db.Stewardess.Find(id); 
+			Stewardess temp = await db.Stewardess.FindAsync(id);
 			if (temp != null)
 			{
 				db.Stewardess.Remove(temp);
-				db.SaveChanges();
+				await db.SaveChangesAsync();
 			}				
 		}
 
-		public void Create(Stewardess item)
+		public async Task Create(Stewardess item)
 		{
-			db.Stewardess.Add(item);
-			db.SaveChanges();
+			await db.Stewardess.AddAsync(item);
+			await db.SaveChangesAsync();
 		}
 
-		public void Update(int id, Stewardess item)
+		public async Task Update(int id, Stewardess item)
 		{
-			Stewardess temp = db.Stewardess.Find(id);
+			Stewardess temp = await db.Stewardess.FindAsync(id);
 			if (temp != null)
 			{
 
@@ -67,7 +68,7 @@ namespace BSA_2018_Homework_4.DAL.Repositories
 				temp.Birth = item.Birth;
 
 				db.Stewardess.Update(temp);
-				db.SaveChanges();
+				await db.SaveChangesAsync();
 			}
 		}
 	}

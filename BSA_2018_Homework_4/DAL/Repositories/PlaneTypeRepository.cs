@@ -6,6 +6,8 @@ using BSA_2018_Homework_4.DAL.Models;
 using BSA_2018_Homework_4.DAL.RepositoryInterfaces;
 using Newtonsoft.Json;
 using System.IO;
+using Microsoft.EntityFrameworkCore;
+
 
 namespace BSA_2018_Homework_4.DAL.Repositories
 {
@@ -31,36 +33,36 @@ namespace BSA_2018_Homework_4.DAL.Repositories
 			//	JsonConvert.SerializeObject(planetypes));
 		}
 
-		public List<PlaneType> GetAll()
+		public async Task<List<PlaneType>> GetAll()
 		{
-			return db.PlaneType.ToList();
+			return await db.PlaneType.ToListAsync();
 		}
 
-		public PlaneType Get(int id)
+		public async Task<PlaneType> Get(int id)
 		{
-			return db.PlaneType.Find(id);
+			return await  db.PlaneType.FindAsync(id);
 		}
 
-		public void Delete(int id)
+		public async Task Delete(int id)
 		{
-			PlaneType temp = db.PlaneType.Find(id);
+			PlaneType temp = await db.PlaneType.FindAsync(id);
 			if (temp != null)
 			{
 				db.PlaneType.Remove(temp);
-				db.SaveChanges();
+				await db.SaveChangesAsync();
 			}				
 		}
 
-		public void Create(PlaneType item)
+		public async Task Create(PlaneType item)
 		{
-			db.PlaneType.Add(item);
-			db.SaveChanges();
+			await db.PlaneType.AddAsync(item);
+			await db.SaveChangesAsync();
 		}
 
-		public void Update(int id, PlaneType item)
+		public async Task Update(int id, PlaneType item)
 		{			
 
-			PlaneType temp = db.PlaneType.Find(id);
+			PlaneType temp = await db.PlaneType.FindAsync(id);
 			if (temp != null)
 			{
 				temp.CarryCapacity = item.CarryCapacity;
@@ -69,7 +71,7 @@ namespace BSA_2018_Homework_4.DAL.Repositories
 
 
 				db.PlaneType.Update(temp);
-				db.SaveChanges();
+				await db.SaveChangesAsync();
 			}
 
 		}

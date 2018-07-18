@@ -21,67 +21,68 @@ namespace BSA_2018_Homework_4.Controllers
 
 		// GET: api/Flight
 		[HttpGet]
-		public IActionResult Get()
+		public async Task<IActionResult> Get()
 		{
-			IEnumerable<FlightDTO> temp = flightService.GetFlightCollection();
+			List<FlightDTO> temp = await flightService.GetFlightCollection();
 
 			if (temp != null)
 				return Ok(temp);
 			else
-				return NotFound();
+				return NotFound(temp);
 
 			//return temp;
 		}
 
 		// GET: api/Flight/5
 		[HttpGet("{id}")]
-		public FlightDTO Get(int id)
+		public async Task<IActionResult> Get(int id)
 		{
-			FlightDTO temp = flightService.GetFlightById(id);
+			FlightDTO temp = await flightService.GetFlightById(id);
 
 			if (temp != null)
-				Response.StatusCode = 200;
+				return Ok(temp);
 			else
-				Response.StatusCode = 404;
-
-			return temp;
+				return NotFound(temp);
+			
 		}
 
 		// POST: api/Flight
 		[HttpPost]
-		public void Post([FromBody]FlightDTO flight)
+		public async Task<IActionResult> Post([FromBody]FlightDTO flight)
 		{
 			if (ModelState.IsValid)
 			{
-				Response.StatusCode = 200;
-				flightService.CreateFlight(flight);
+				//Response.StatusCode = 200;
+				await flightService.CreateFlight(flight);
+				return Ok(flight);
 			}
 			else
 			{
-				Response.StatusCode = 400;
+				return BadRequest();
 			}			
 		}
 
 		// PUT: api/Flight/5
 		[HttpPut("{id}")]
-		public void Put(int id, [FromBody]FlightDTO flight)
+		public async Task<IActionResult> Put(int id, [FromBody]FlightDTO flight)
 		{
 			if (ModelState.IsValid)
 			{
-				Response.StatusCode = 200;
-				flightService.UpdateFlight(id, flight);
+				//Response.StatusCode = 200;
+				await flightService.UpdateFlight(id,flight);
+				return Ok(flight);
 			}
 			else
 			{
-				Response.StatusCode = 400;
+				return BadRequest();
 			}
 		}
 
 		// DELETE: api/Flight/5
 		[HttpDelete("{id}")]
-		public void Delete(int id)
+		public async Task Delete(int id)
 		{
-			flightService.DeleteFlightById(id);
+			await flightService.DeleteFlightById(id);
 		}
 	}
 }

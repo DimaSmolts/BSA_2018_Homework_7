@@ -21,29 +21,29 @@ namespace BSA_2018_Homework_4.BL.Services
 			this.IunitOfWork = IunitOfWork;
 		}
 
-		public void CreateFlight(FlightDTO item)
+		public async Task CreateFlight(FlightDTO item)
 		{
-			IunitOfWork.FlightRepository.Create(Mapper.Map<FlightDTO, Flight>(item));
+			await IunitOfWork.FlightRepository.Create(Mapper.Map<FlightDTO, Flight>(item));
 		}
 
-		public void DeleteFlightById(int id)
+		public async Task DeleteFlightById(int id)
 		{
-			IunitOfWork.FlightRepository.Delete(id);
+			await IunitOfWork.FlightRepository.Delete(id);
 		}
 
-		public FlightDTO GetFlightById(int id)
+		public async Task< FlightDTO> GetFlightById(int id)
 		{
-			return Mapper.Map<Flight, FlightDTO>(IunitOfWork.FlightRepository.Get(id)); 
+			return Mapper.Map<Flight, FlightDTO>(await IunitOfWork.FlightRepository.Get(id)); 
 		}
 
-		public List<FlightDTO> GetFlightCollection()
+		public async Task<List<FlightDTO>> GetFlightCollection()
 		{
-			return Mapper.Map<List<Flight>, List<FlightDTO>>(IunitOfWork.FlightRepository.GetAll());
+			return Mapper.Map<List<Flight>, List<FlightDTO>>(await IunitOfWork.FlightRepository.GetAll());
 		}
 
-		public void UpdateFlight(int id, FlightDTO item)
+		public async Task UpdateFlight(int id, FlightDTO item)
 		{
-			IunitOfWork.FlightRepository.Update(id,Mapper.Map<FlightDTO, Flight>(item));
+			await IunitOfWork.FlightRepository.Update(id,Mapper.Map<FlightDTO, Flight>(item));
 		}
 	}
 }

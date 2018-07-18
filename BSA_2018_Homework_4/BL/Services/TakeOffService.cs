@@ -19,7 +19,7 @@ namespace BSA_2018_Homework_4.BL.Services
 			this.IunitOfWork = IunitOfWork;
 		}
 
-		public void CreateTakeOff(TakeOffDTO item)
+		public async Task CreateTakeOff(TakeOffDTO item)
 		{
 			//TakeOff temp = Mapper.Map<TakeOffDTO, TakeOff>(item);
 			//temp.CrewId = IunitOfWork.CrewRepository.Get(item.CrewId);
@@ -34,38 +34,38 @@ namespace BSA_2018_Homework_4.BL.Services
 			//}		
 
 
-			IunitOfWork.TakeOffRepository.Create(Mapper.Map<TakeOffDTO, TakeOff>(item));
+			await IunitOfWork.TakeOffRepository.Create(Mapper.Map<TakeOffDTO, TakeOff>(item));
 
 		}
 
-		public void DeleteTakeOffById(int id)
+		public async Task DeleteTakeOffById(int id)
 		{
-			IunitOfWork.TakeOffRepository.Delete(id);
+			await IunitOfWork.TakeOffRepository.Delete(id);
 		}
 
-		public TakeOffDTO GetTakeOffById(int id)
+		public async Task<TakeOffDTO> GetTakeOffById(int id)
 		{
-			List<TakeOff> temp = IunitOfWork.TakeOffRepository.GetAll();
+			//List<TakeOff> temp = IunitOfWork.TakeOffRepository.GetAll();
 
-			List<TakeOffDTO> tempDTO = Mapper.Map<List<TakeOff>, List<TakeOffDTO>>(temp);
+			//List<TakeOffDTO> tempDTO = 
 
 
-			return tempDTO.Where(dto => dto.Id == id).First();
+			return Mapper.Map<TakeOff, TakeOffDTO>(await IunitOfWork.TakeOffRepository.Get(id));
 		}
 
-		public List<TakeOffDTO> GetTakeOffCollection()
+		public async Task<List<TakeOffDTO>> GetTakeOffCollection()
 		{
-			List<TakeOff> temp = IunitOfWork.TakeOffRepository.GetAll();
+			//List<TakeOff> temp = IunitOfWork.TakeOffRepository.GetAll();
 
-			List<TakeOffDTO> tempDTO = Mapper.Map<List<TakeOff>, List<TakeOffDTO>>(temp);
+			//List<TakeOffDTO> tempDTO = 
 
 
-			return tempDTO;
+			return Mapper.Map<List<TakeOff>, List<TakeOffDTO>>(await IunitOfWork.TakeOffRepository.GetAll());
 		}
 
-		public void UpdateTakeOff(int id, TakeOffDTO item)
+		public async Task UpdateTakeOff(int id, TakeOffDTO item)
 		{
-			IunitOfWork.TakeOffRepository.Update(id, Mapper.Map<TakeOffDTO, TakeOff>(item));
+			await IunitOfWork.TakeOffRepository.Update(id, Mapper.Map<TakeOffDTO, TakeOff>(item));
 		}
 	}
 }

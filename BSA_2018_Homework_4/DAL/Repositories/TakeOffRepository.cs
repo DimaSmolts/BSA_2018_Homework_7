@@ -31,41 +31,53 @@ namespace BSA_2018_Homework_4.DAL.Repositories
 			//	JsonConvert.SerializeObject(takeoffs));
 		}
 
-		public List<TakeOff> GetAll()
+		public async Task<List<TakeOff>> GetAll()
 		{
-			List<TakeOff> temp = db.TakeOff.ToList();
+			//	List<TakeOff> temp = db.TakeOff.ToList();
 
-			return db.TakeOff
+			return await db.TakeOff
 				.Include(t => t.PlaneId)
+				.ThenInclude(p => p.Type)
 				.Include(t => t.FlightNum)
 				.Include(t => t.CrewId)
-				.ToList();
+				.ThenInclude(c => c.PilotId)
+				.Include(t => t.CrewId)
+				.ThenInclude(c => c.StewardessIds)
+				.ToListAsync();
 		}
 
-		public TakeOff Get(int id)
+		public async Task< TakeOff> Get(int id)
 		{
-			return db.TakeOff.Find(id);
+			return await db.TakeOff
+				.Include(t => t.PlaneId)
+				.ThenInclude(p => p.Type)
+				.Include(t => t.FlightNum)
+				.Include(t => t.CrewId)
+				.ThenInclude(c => c.PilotId)
+				.Include(t => t.CrewId)
+				.ThenInclude(c => c.StewardessIds)
+				.FirstOrDefaultAsync(t => t.Id == id);
 		}
 
-		public void Delete(int id)
+		public async Task Delete(int id)
 		{
-			TakeOff temp = db.TakeOff.Find(id);
+			TakeOff temp = await db.TakeOff.FindAsync(id);
 			if (temp != null)
 			{
 				db.TakeOff.Remove(temp);
-				db.SaveChanges();
+				await db.SaveChangesAsync();
 			}				
 		}
 
-		public void Create(TakeOff item)
+		public async Task Create(TakeOff item)
 		{
-			db.Add(item);
-			db.SaveChanges();
+			await db.AddAsync(item);
+			await db.SaveChangesAsync();
 		}
 
-		public void Update(int id, TakeOff item)
+		public async Task Update(int id, TakeOff item)
 		{
-			TakeOff temp = takeoffs.FirstOrDefault(t => t.Id == id);
+			TakeOff temp = await db.TakeOff.FindAsync(id);
 			if (temp != null)
 			{
 				//temp.Id = item.Id;
@@ -74,7 +86,8 @@ namespace BSA_2018_Homework_4.DAL.Repositories
 				temp.CrewId = item.CrewId;
 				temp.PlaneId = item.PlaneId;
 
-				db.SaveChanges();
+				db.TakeOff.Update(temp);
+				await db.SaveChangesAsync();
 			}
 
 			//TakeOff temp = db.TakeOff.Find(id);

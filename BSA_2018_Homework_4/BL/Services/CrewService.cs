@@ -20,7 +20,7 @@ namespace BSA_2018_Homework_4.BL.Services
 			this.IunitOfWork = IunitOfWork;
 		}
 
-		public void CreateCrew(CrewDTO item)
+		public async Task CreateCrew(CrewDTO item)
 		{
 			//Crew temp = new Crew();
 			//temp.PilotId = IunitOfWork.PilotRepository.Get(item.PilotId);
@@ -44,23 +44,21 @@ namespace BSA_2018_Homework_4.BL.Services
 			//}			
 
 
-			IunitOfWork.CrewRepository.Create(Mapper.Map<CrewDTO,Crew>(item));
+			await IunitOfWork.CrewRepository.Create(Mapper.Map<CrewDTO,Crew>(item));
 
 		}
 
-		public void DeleteCrewById(int id)
+		public async Task DeleteCrewById(int id)
 		{
-			IunitOfWork.CrewRepository.Delete(id);
+			await IunitOfWork.CrewRepository.Delete(id);
 		}
 
-		public CrewDTO GetCrewById(int id)
+		public async Task<CrewDTO> GetCrewById(int id)
 		{
-
-
-			return Mapper.Map<Crew, CrewDTO>(IunitOfWork.CrewRepository.Get(id));
+			return Mapper.Map<Crew, CrewDTO>(await IunitOfWork.CrewRepository.Get(id));
 		}
 
-		public List<CrewDTO> GetCrewCollection()
+		public async Task<List<CrewDTO>> GetCrewCollection()
 		{
 			//List<Crew> temp = IunitOfWork.CrewRepository.GetAll();
 			//List<CrewDTO> selected = Mapper.Map<List<Crew>, List<CrewDTO>>(temp);
@@ -74,12 +72,12 @@ namespace BSA_2018_Homework_4.BL.Services
 
 			//List<CrewDTO> crewDTOs = Mapper.Map<List<Crew>, List<CrewDTO>>(IunitOfWork.CrewRepository.GetAll());
 
-			return Mapper.Map<List<Crew>, List<CrewDTO>>(IunitOfWork.CrewRepository.GetAll());// crewDTOs;
+			return Mapper.Map<List<Crew>, List<CrewDTO>>(await IunitOfWork.CrewRepository.GetAll());// crewDTOs;
 		}
 
-		public void UpdateCrew(int id, CrewDTO item)
+		public async Task UpdateCrew(int id, CrewDTO item)
 		{
-			IunitOfWork.CrewRepository.Update(id,Mapper.Map<CrewDTO, Crew>(item));
+			await 	IunitOfWork.CrewRepository.Update(id,Mapper.Map<CrewDTO, Crew>(item));
 		}
 	}
 }

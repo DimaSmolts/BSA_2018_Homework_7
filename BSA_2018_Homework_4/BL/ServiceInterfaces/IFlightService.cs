@@ -8,10 +8,10 @@ namespace BSA_2018_Homework_4.BL.ServiceInterfaces
 {
     public interface IFlightService
     {
-		List<FlightDTO> GetFlightCollection();
-		FlightDTO GetFlightById(int id);
-		void DeleteFlightById(int id);
-		void CreateFlight(FlightDTO item);
-		void UpdateFlight(int id, FlightDTO item);
+		Task<List<FlightDTO>> GetFlightCollection();
+		Task<FlightDTO> GetFlightById(int id);
+		Task DeleteFlightById(int id);
+		Task CreateFlight(FlightDTO item);
+		Task UpdateFlight(int id, FlightDTO item);
 	}
 }

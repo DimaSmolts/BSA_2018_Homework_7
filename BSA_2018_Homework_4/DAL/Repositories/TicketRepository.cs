@@ -6,6 +6,7 @@ using BSA_2018_Homework_4.DAL.Models;
 using BSA_2018_Homework_4.DAL.RepositoryInterfaces;
 using Newtonsoft.Json;
 using System.IO;
+using Microsoft.EntityFrameworkCore;
 
 namespace BSA_2018_Homework_4.DAL.Repositories
 {
@@ -30,42 +31,41 @@ namespace BSA_2018_Homework_4.DAL.Repositories
 		//		JsonConvert.SerializeObject(tickets));
 		}
 
-		public List<Ticket> GetAll()
-		{
-			List<Ticket> temp = db.Ticket.ToList();
-			return db.Ticket.ToList();
+		public async Task<List<Ticket>> GetAll()
+		{			
+			return await db.Ticket.ToListAsync();
 		}
 
-		public Ticket Get(int id)
+		public async Task<Ticket> Get(int id)
 		{
-			return db.Ticket.Find(id);
+			return await db.Ticket.FindAsync(id);
 		}
 
-		public void Delete(int id)
+		public async Task Delete(int id)
 		{
-			Ticket temp = db.Ticket.Find(id);
+			Ticket temp = await db.Ticket.FindAsync(id);
 			if (temp != null)
 			{
 				db.Ticket.Remove(temp);
-				db.SaveChanges();
+				await db.SaveChangesAsync();
 			}				
 		}
 
-		public void Create(Ticket item)
+		public async Task Create(Ticket item)
 		{
-			db.Ticket.Add(item);
-			db.SaveChanges();
+			await db.Ticket.AddAsync(item);
+			await db.SaveChangesAsync();
 		}
 
-		public void Update(int id, Ticket item)
+		public async Task Update(int id, Ticket item)
 		{
-			Ticket temp = db.Ticket.Find(id);
+			Ticket temp = await db.Ticket.FindAsync(id);
 			if (temp != null)
 			{
 				temp.Price = item.Price;
 
 				db.Ticket.Update(temp);
-				db.SaveChanges();				
+				await db.SaveChangesAsync();				
 			}
 		}
 	}

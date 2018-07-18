@@ -20,29 +20,31 @@ namespace BSA_2018_Homework_4.BL.Services
 			this.IunitOfWork = IunitOfWork;
 		}
 
-		public void CreatePilot(PilotDTO item)
+		public async Task CreatePilot(PilotDTO item)
 		{
-			IunitOfWork.PilotRepository.Create(Mapper.Map<PilotDTO, Pilot>(item));
+			await IunitOfWork.PilotRepository.Create(Mapper.Map<PilotDTO, Pilot>(item));
 		}
 
-		public void DeletePilotById(int id)
+		public async Task DeletePilotById(int id)
 		{
-			IunitOfWork.PilotRepository.Delete(id);
+			await IunitOfWork.PilotRepository.Delete(id);
 		}
 
-		public PilotDTO GetPilotById(int id)
+		public async Task<PilotDTO> GetPilotById(int id)
 		{
-			return Mapper.Map<Pilot,PilotDTO>(IunitOfWork.PilotRepository.Get(id));
+			return Mapper.Map<Pilot,PilotDTO>(await IunitOfWork.PilotRepository.Get(id));
 		}
 
-		public List<PilotDTO> GetPilotCollection()
+		public async Task<List<PilotDTO>> GetPilotCollection()
 		{
-			return Mapper.Map<List<Pilot>, List<PilotDTO>>(IunitOfWork.PilotRepository.GetAll());
+
+
+			return Mapper.Map<List<Pilot>, List<PilotDTO>>(await IunitOfWork.PilotRepository.GetAll());
 		}
 
-		public void UpdatePilot(int id, PilotDTO item)
+		public async Task UpdatePilot(int id, PilotDTO item)
 		{
-			IunitOfWork.PilotRepository.Update(id, Mapper.Map<PilotDTO, Pilot>(item));
+			await IunitOfWork.PilotRepository.Update(id, Mapper.Map<PilotDTO, Pilot>(item));
 		}
 	}
 }

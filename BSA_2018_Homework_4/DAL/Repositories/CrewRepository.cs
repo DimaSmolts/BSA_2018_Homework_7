@@ -31,42 +31,43 @@ namespace BSA_2018_Homework_4.DAL.Repositories
 			//	JsonConvert.SerializeObject(crews));
 		}
 
-		public List<Crew> GetAll()
+		public async Task<List<Crew>> GetAll()
 		{
-			return db.Crew
+			return await db.Crew
 				.Include(t => t.StewardessIds)
-				.Include(t=> t.PilotId)
-				.ToList();
+				.Include(t => t.PilotId)
+				.ToListAsync();
 				
 		}
 
-		public Crew Get(int id)
+		public async Task<Crew> Get(int id)
 		{
-			return db.Crew
+			return await db.Crew
+				.Include(t => t.PilotId)
 				.Include( t => t.StewardessIds)
-				.FirstOrDefault(t =>t.Id == id)
+				.FirstOrDefaultAsync(t =>t.Id == id)
 				//.Include(t => t.StewardessIds)
 				//.Include(t => t.PilotId)
 				;
 		}
 
-		public void Delete(int id)
+		public async Task Delete(int id)
 		{
-			Crew temp = db.Crew.Find(id);
+			Crew temp = await db.Crew.FindAsync(id);
 			if (temp != null)
 			{
 				db.Crew.Remove(temp);
-				db.SaveChanges();
+				await db.SaveChangesAsync();
 			}				
 		}
 
-		public void Create(Crew item)
+		public async Task Create(Crew item)
 		{
-			db.Crew.Add(item);
-			db.SaveChanges();
+			await db.Crew.AddAsync(item);
+			await db.SaveChangesAsync();
 		}
 
-		public void Update(int id, Crew item)
+		public async Task Update(int id, Crew item)
 		{
 			//Crew temp = crews.FirstOrDefault(t => t.Id == id);
 			//if (temp != null)
@@ -74,14 +75,15 @@ namespace BSA_2018_Homework_4.DAL.Repositories
 
 			//}
 
-			Crew temp = db.Crew.Find(id);
+			Crew temp = await db.Crew.FindAsync(id);
 			if (temp != null)
 			{
 					temp.Id = item.Id;
 					temp.PilotId = item.PilotId;
 					temp.StewardessIds = item.StewardessIds;
 
-					SaveChanges();
+				db.Crew.Update(temp);
+				await db.SaveChangesAsync();
 			}
 		}
 	}

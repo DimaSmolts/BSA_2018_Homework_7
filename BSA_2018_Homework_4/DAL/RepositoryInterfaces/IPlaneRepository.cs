@@ -8,10 +8,10 @@ namespace BSA_2018_Homework_4.DAL.RepositoryInterfaces
 {
     public interface IPlaneRepository
     {
-		List<Plane> GetAll();
-		Plane Get(int id);
-		void Delete(int id);
-		void Create(Plane item);
-		void Update(int id, Plane item);
+		Task<List<Plane>> GetAll();
+		Task<Plane> Get(int id);
+		Task Delete(int id);
+		Task Create(Plane item);
+		Task Update(int id, Plane item);
 	}
 }

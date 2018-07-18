@@ -8,10 +8,10 @@ namespace BSA_2018_Homework_4.BL.ServiceInterfaces
 {
     public interface IPilotService
     {
-		List<PilotDTO> GetPilotCollection();
-		PilotDTO GetPilotById(int id);
-		void DeletePilotById(int id);
-		void CreatePilot(PilotDTO item);
-		void UpdatePilot(int id, PilotDTO item);
+		Task<List<PilotDTO>> GetPilotCollection();
+		Task<PilotDTO> GetPilotById(int id);
+		Task DeletePilotById(int id);
+		Task CreatePilot(PilotDTO item);
+		Task UpdatePilot(int id, PilotDTO item);
 	}
 }

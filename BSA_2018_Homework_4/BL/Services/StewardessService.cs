@@ -19,29 +19,29 @@ namespace BSA_2018_Homework_4.BL.Services
 			this.IunitOfWork = IunitOfWork;
 		}
 
-		public void CreateStewardess(StewardessDTO item)
+		public async Task CreateStewardess(StewardessDTO item)
 		{
-			IunitOfWork.StewardessRepository.Create(Mapper.Map<StewardessDTO, Stewardess>(item));
+			await IunitOfWork.StewardessRepository.Create(Mapper.Map<StewardessDTO, Stewardess>(item));
 		}
 
-		public void DeleteStewardessById(int id)
+		public async Task DeleteStewardessById(int id)
 		{
-			IunitOfWork.StewardessRepository.Delete(id);
+			await IunitOfWork.StewardessRepository.Delete(id);
 		}
 
-		public StewardessDTO GetStewardessById(int id)
+		public async Task<StewardessDTO> GetStewardessById(int id)
 		{
-			return Mapper.Map<Stewardess,StewardessDTO>(IunitOfWork.StewardessRepository.Get(id));
+			return Mapper.Map<Stewardess,StewardessDTO>(await IunitOfWork.StewardessRepository.Get(id));
 		}
 
-		public List<StewardessDTO> GetStewardessCollection()
+		public async Task<List<StewardessDTO>> GetStewardessCollection()
 		{
-			return Mapper.Map<List<Stewardess>,List<StewardessDTO>>(IunitOfWork.StewardessRepository.GetAll());
+			return Mapper.Map<List<Stewardess>,List<StewardessDTO>>(await IunitOfWork.StewardessRepository.GetAll());
 		}
 
-		public void UpdateStewardess(int id, StewardessDTO item)
+		public async Task UpdateStewardess(int id, StewardessDTO item)
 		{
-			IunitOfWork.StewardessRepository.Update(id,Mapper.Map<StewardessDTO,Stewardess>(item));
+			await IunitOfWork.StewardessRepository.Update(id,Mapper.Map<StewardessDTO,Stewardess>(item));
 		}
 	}
 }

@@ -8,10 +8,10 @@ namespace BSA_2018_Homework_4.DAL.RepositoryInterfaces
 {
 	public interface ITakeOffRepository
     {
-		List<TakeOff> GetAll();
-		TakeOff Get(int id);
-		void Delete(int id);
-		void Create(TakeOff item);
-		void Update(int id, TakeOff item);
+		Task<List<TakeOff>> GetAll();
+		Task<TakeOff> Get(int id);
+		Task Delete(int id);
+		Task Create(TakeOff item);
+		Task Update(int id, TakeOff item);
 	}
 }

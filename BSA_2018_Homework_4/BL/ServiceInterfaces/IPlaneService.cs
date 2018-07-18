@@ -8,10 +8,10 @@ namespace BSA_2018_Homework_4.BL.ServiceInterfaces
 {
     public interface IPlaneService
     {
-		List<PlaneDTO> GetPlaneCollection();
-		PlaneDTO GetPlaneById(int id);
-		void DeletePlaneById(int id);
-		void CreatePlane(PlaneDTO item);
-		void UpdatePlane(int id, PlaneDTO item);
+		Task<List<PlaneDTO>> GetPlaneCollection();
+		Task<PlaneDTO> GetPlaneById(int id);
+		Task DeletePlaneById(int id);
+		Task CreatePlane(PlaneDTO item);
+		Task UpdatePlane(int id, PlaneDTO item);
 	}
 }

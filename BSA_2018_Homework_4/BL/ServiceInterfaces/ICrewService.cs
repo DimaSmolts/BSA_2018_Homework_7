@@ -8,10 +8,10 @@ namespace BSA_2018_Homework_4.BL.ServiceInterfaces
 {
     public interface ICrewService
     {
-		List<CrewDTO> GetCrewCollection();
-		CrewDTO GetCrewById(int id);
-		void DeleteCrewById(int id);
-		void CreateCrew(CrewDTO item);
-		void UpdateCrew(int id, CrewDTO item);
+		Task<List<CrewDTO>> GetCrewCollection();
+		Task<CrewDTO> GetCrewById(int id);
+		Task DeleteCrewById(int id);
+		Task CreateCrew(CrewDTO item);
+		Task UpdateCrew(int id, CrewDTO item);
 	}
 }

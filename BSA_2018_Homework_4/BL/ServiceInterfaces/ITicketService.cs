@@ -8,10 +8,10 @@ namespace BSA_2018_Homework_4.BL.ServiceInterfaces
 {
     public interface ITicketService
     {
-		List<TicketDTO> GetTicketCollection();
-		TicketDTO GetTicketById(int id);
-		void DeleteTicketById(int id);
-		void CreateTicket(TicketDTO item);
-		void UpdateTicket(int id, TicketDTO item);
+		Task<List<TicketDTO>> GetTicketCollection();
+		Task<TicketDTO> GetTicketById(int id);
+		Task DeleteTicketById(int id);
+		Task CreateTicket(TicketDTO item);
+		Task UpdateTicket(int id, TicketDTO item);
 	}
 }

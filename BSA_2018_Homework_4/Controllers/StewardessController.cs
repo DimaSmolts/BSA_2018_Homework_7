@@ -22,67 +22,65 @@ namespace BSA_2018_Homework_4.Controllers
 
         // GET: api/Stewardess
         [HttpGet]
-        public IEnumerable<StewardessDTO> Get()
+        public async Task<IActionResult> Get()
         {
-            IEnumerable<StewardessDTO> temp = stewardessService.GetStewardessCollection();
+            List<StewardessDTO> temp = await stewardessService.GetStewardessCollection();
 
 			if (temp != null)
-				Response.StatusCode = 200;
+				return Ok(temp);
 			else
-				Response.StatusCode = 404;
+				return BadRequest();
 
-			return temp;
 		}
 
         // GET: api/Stewardess/5
         [HttpGet("{id}")]
-        public StewardessDTO Get(int id)
+        public async Task<IActionResult> Get(int id)
         {
-			StewardessDTO temp = stewardessService.GetStewardessById(id);
+			StewardessDTO temp = await stewardessService.GetStewardessById(id);
 
 			if (temp != null)
-				Response.StatusCode = 200;
+				return Ok(temp);
 			else
-				Response.StatusCode = 404;
-
-			return temp;
+				return BadRequest();
+			
 		}
         
         // POST: api/Stewardess
         [HttpPost]
-        public void Post([FromBody]StewardessDTO stewardess)
+        public async Task<IActionResult> Post([FromBody]StewardessDTO stewardess)
         {
 			if (ModelState.IsValid)
-			{
-				Response.StatusCode = 200;
-				stewardessService.CreateStewardess(stewardess);
+			{				
+				await stewardessService.CreateStewardess(stewardess);
+				return Ok();
 			}
 			else
 			{
-				Response.StatusCode = 400;
+				return BadRequest();
 			}		
         }
         
         // PUT: api/Stewardess/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody]StewardessDTO stewardess)
+        public async Task<IActionResult> Put(int id, [FromBody]StewardessDTO stewardess)
 		{
 			if (ModelState.IsValid)
-			{
-				Response.StatusCode = 200;
-				stewardessService.UpdateStewardess(id, stewardess);
+			{				
+				await stewardessService.UpdateStewardess(id, stewardess);
+				return Ok(stewardess);
 			}
 			else
 			{
-				Response.StatusCode = 400;
+				return BadRequest();
 			}			
         }
         
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task Delete(int id)
         {
-			stewardessService.DeleteStewardessById(id);
+			await stewardessService.DeleteStewardessById(id);
         }
     }
 }

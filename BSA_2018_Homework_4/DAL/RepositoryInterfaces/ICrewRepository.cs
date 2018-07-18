@@ -8,10 +8,10 @@ namespace BSA_2018_Homework_4.DAL.RepositoryInterfaces
 {
 	public interface ICrewRepository
     {
-		List<Crew> GetAll();
-		Crew Get(int id);
-		void Delete(int id);
-		void Create(Crew item);
-		void Update(int id, Crew item);
+		Task<List<Crew>> GetAll();
+		Task<Crew> Get(int id);
+		Task Delete(int id);
+		Task Create(Crew item);
+		Task Update(int id, Crew item);
 	}
 }

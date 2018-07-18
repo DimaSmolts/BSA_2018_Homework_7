@@ -8,10 +8,10 @@ namespace BSA_2018_Homework_4.DAL.RepositoryInterfaces
 {
 	public interface IStewardessRepository
     {
-		List<Stewardess> GetAll();
-		Stewardess Get(int id);
-		void Delete(int id);
-		void Create(Stewardess item);
-		void Update(int id, Stewardess item);
+		Task<List<Stewardess>> GetAll();
+		Task<Stewardess> Get(int id);
+		Task Delete(int id);
+		Task Create(Stewardess item);
+		Task Update(int id, Stewardess item);
 	}
 }

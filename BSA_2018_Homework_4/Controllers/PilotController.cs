@@ -23,9 +23,9 @@ namespace BSA_2018_Homework_4.Controllers
         // GET: api/Pilot
         [HttpGet]
         //public IEnumerable<PilotDTO> Get()
-		public IActionResult Get()
+		public async Task<IActionResult> Get()
         {
-			IEnumerable<PilotDTO> temp = pilotService.GetPilotCollection();
+			List<PilotDTO> temp = await pilotService.GetPilotCollection();
 
 			if (temp != null)
 				return Ok(temp);
@@ -37,9 +37,9 @@ namespace BSA_2018_Homework_4.Controllers
 
         // GET: api/Pilot/5
         [HttpGet("{id}")]
-        public IActionResult Get(int id)
+        public async Task<IActionResult> Get(int id)
         {
-            PilotDTO temp = pilotService.GetPilotById(id);
+            PilotDTO temp = await pilotService.GetPilotById(id);
 
 			if (temp != null)
 				return Ok(temp);
@@ -51,11 +51,11 @@ namespace BSA_2018_Homework_4.Controllers
         
         // POST: api/Pilot
         [HttpPost]
-        public IActionResult Post([FromBody]PilotDTO pilot)
+        public async Task<IActionResult> Post([FromBody]PilotDTO pilot)
         {
 			if (ModelState.IsValid && pilot != null)
 			{				
-				pilotService.CreatePilot(pilot);
+				await pilotService.CreatePilot(pilot);
 				return Ok(pilot);
 			}
 			else
@@ -66,24 +66,24 @@ namespace BSA_2018_Homework_4.Controllers
         
         // PUT: api/Pilot/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody]PilotDTO pilot)
+        public async Task<IActionResult> Put(int id, [FromBody]PilotDTO pilot)
         {
 			if (ModelState.IsValid)
-			{
-				Response.StatusCode = 200;
-				pilotService.UpdatePilot(id, pilot);
+			{				
+				await pilotService.UpdatePilot(id, pilot);
+				return Ok();
 			}
 			else
 			{
-				Response.StatusCode = 400;
+				return BadRequest();
 			}		
         }
         
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task Delete(int id)
         {
-			pilotService.DeletePilotById(id);
+			await pilotService.DeletePilotById(id);
         }
     }
 }

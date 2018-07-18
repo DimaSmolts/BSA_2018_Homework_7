@@ -21,67 +21,63 @@ namespace BSA_2018_Homework_4.Controllers
 
         // GET: api/Ticket
         [HttpGet]
-        public IEnumerable<TicketDTO> Get()
+        public async Task<IActionResult> Get()
         {
-            IEnumerable<TicketDTO> temp = ticketService.GetTicketCollection();
+			List<TicketDTO> temp = await ticketService.GetTicketCollection();
 
 			if (temp != null)
-				Response.StatusCode = 200;
+				return Ok(temp);
 			else
-				Response.StatusCode = 404;
-
-			return temp;
+				return BadRequest();
 		}
 
         // GET: api/Ticket/5
         [HttpGet("{id}")]
-        public TicketDTO Get(int id)
+        public async Task<IActionResult> Get(int id)
         {
-            TicketDTO temp = ticketService.GetTicketById(id);
+            TicketDTO temp = await ticketService.GetTicketById(id);
 
 			if (temp != null)
-				Response.StatusCode = 200;
+				return Ok(temp);
 			else
-				Response.StatusCode = 404;
-
-			return temp;
+				return BadRequest();
 		}
         
         // POST: api/Ticket
         [HttpPost]
-        public void Post([FromBody]TicketDTO ticket)
+        public async Task<IActionResult> Post([FromBody]TicketDTO ticket)
         {
 			if (ModelState.IsValid)
-			{
-				Response.StatusCode = 200;
-				ticketService.CreateTicket(ticket);
+			{				
+				await ticketService.CreateTicket(ticket);
+				return Ok(ticket);
 			}
 			else
 			{
-				Response.StatusCode = 400;
+				return BadRequest();
 			}			
         }
         
         // PUT: api/Ticket/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody]TicketDTO ticket)
+        public async Task<IActionResult> Put(int id, [FromBody]TicketDTO ticket)
         {
 			if (ModelState.IsValid)
 			{
-				Response.StatusCode = 200;
-				ticketService.UpdateTicket(id, ticket);
+				await ticketService.UpdateTicket(id, ticket);
+				return Ok(ticket);
 			}
 			else
 			{
-				Response.StatusCode = 400;
+				return BadRequest();
 			}
-        }
+		}
         
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task Delete(int id)
         {
-			ticketService.DeleteTicketById(id);
+			await ticketService.DeleteTicketById(id);
         }
     }
 }

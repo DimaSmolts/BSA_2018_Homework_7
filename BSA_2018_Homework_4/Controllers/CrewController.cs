@@ -22,68 +22,64 @@ namespace BSA_2018_Homework_4.Controllers
 
         // GET: api/Crew
         [HttpGet]
-        public IEnumerable<CrewDTO> Get()
+        public async Task<IActionResult> Get()
         {
-			IEnumerable<CrewDTO> temp = crewService.GetCrewCollection();
+			List<CrewDTO> temp = await crewService.GetCrewCollection();
 
 			if (temp != null)
-				Response.StatusCode = 200;
+				return Ok(temp);
 			else
-				Response.StatusCode = 404;
-
-			return temp;
+				return BadRequest();
 		}
 
         // GET: api/Crew/5
         [HttpGet("{id}")]
-        public CrewDTO Get(int id)
+        public async Task<IActionResult> Get(int id)
         {
-            CrewDTO temp = crewService.GetCrewById(id);
+            CrewDTO temp = await crewService.GetCrewById(id);
 
-			if (temp != null)			
-				Response.StatusCode = 200;			
-			else			
-				Response.StatusCode = 404;
-
-			return temp; 
-			
+			if (temp != null)
+				return Ok(temp);
+			else
+				return BadRequest(temp);			
         }
         
         // POST: api/Crew
         [HttpPost]
-        public void Post([FromBody]CrewDTO crew)
+        public async Task<IActionResult> Post([FromBody]CrewDTO crew)
         {
 			if (ModelState.IsValid)
-			{
-				Response.StatusCode = 200;
-				crewService.CreateCrew(crew);
+			{				
+				await crewService.CreateCrew(crew);
+				return Ok(crew);
 			}
 			else
 			{
-				Response.StatusCode = 400;
+				return BadRequest(crew);
 			}		
         }
         
         // PUT: api/Crew/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody]CrewDTO crew)
+        public async Task<IActionResult> Put(int id, [FromBody]CrewDTO crew)
         {
 			if (ModelState.IsValid)
 			{
-				Response.StatusCode = 200;
-				crewService.UpdateCrew(id, crew);
+				//Response.StatusCode = 200;
+				await crewService.UpdateCrew(id, crew);
+				return Ok();
 			}
 			else
 			{
-				Response.StatusCode = 400;
+				return BadRequest();
 			}
 		}
         
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task Delete(int id)
         {
-			crewService.DeleteCrewById(id);
+			await crewService.DeleteCrewById(id);
         }
     }
 }

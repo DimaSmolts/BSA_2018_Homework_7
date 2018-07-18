@@ -22,67 +22,65 @@ namespace BSA_2018_Homework_4.Controllers
 
         // GET: api/PlaneType
         [HttpGet]
-        public IEnumerable<PlaneTypeDTO> Get()
+        public async Task<IActionResult> Get()
         {
-            IEnumerable<PlaneTypeDTO> temp = planeTypeService.GetPlaneTypeCollection();
+            List<PlaneTypeDTO> temp = await planeTypeService.GetPlaneTypeCollection();
 
 			if (temp != null)
-				Response.StatusCode = 200;
+				return Ok(temp);
 			else
-				Response.StatusCode = 404;
-
-			return temp;
+				return NotFound(temp);
 		}
 
         // GET: api/PlaneType/5
         [HttpGet("{id}")]
-        public PlaneTypeDTO Get(int id)
+        public async Task<IActionResult> Get(int id)
         {
-            PlaneTypeDTO temp = planeTypeService.GetPlaneTypeById(id);
+            PlaneTypeDTO temp = await planeTypeService.GetPlaneTypeById(id);
 
 			if (temp != null)
-				Response.StatusCode = 200;
+				return Ok(temp);
 			else
-				Response.StatusCode = 404;
-
-			return temp;
+				return NotFound(temp);
 		}
         
         // POST: api/PlaneType
         [HttpPost]
-        public void Post([FromBody]PlaneTypeDTO planeType)
+        public async Task<IActionResult> Post([FromBody]PlaneTypeDTO planeType)
         {
 			if (ModelState.IsValid)
 			{
-				Response.StatusCode = 200;
-				planeTypeService.CreatePlaneType(planeType);
+				//Response.StatusCode = 200;
+				await planeTypeService.CreatePlaneType(planeType);
+				return Ok(planeType);
 			}
 			else
 			{
-				Response.StatusCode = 400;
+				return BadRequest();
 			}			
         }
         
         // PUT: api/PlaneType/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody]PlaneTypeDTO planeType)
+        public async Task<IActionResult> Put(int id, [FromBody]PlaneTypeDTO planeType)
         {
 			if (ModelState.IsValid)
 			{
-				Response.StatusCode = 200;
-				planeTypeService.UpdatePlaneType(id, planeType);
+				//Response.StatusCode = 200;
+				await planeTypeService.UpdatePlaneType(id,planeType);
+				return Ok(planeType);
 			}
 			else
 			{
-				Response.StatusCode = 400;
-			}			
-        }
+				return BadRequest();
+			}
+		}
         
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task Delete(int id)
         {
-			planeTypeService.DeletePlaneType(id);
+			await planeTypeService.DeletePlaneType(id);
         }
     }
 }

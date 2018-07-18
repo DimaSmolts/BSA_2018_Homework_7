@@ -31,37 +31,37 @@ namespace BSA_2018_Homework_4.DAL.Repositories
 				//JsonConvert.SerializeObject(planes));
 		}
 
-		public List<Plane> GetAll()
+		public async Task< List<Plane>> GetAll()
 		{
-			return db.PLane
+			return await db.PLane
 				.Include(pl => pl.Type)
-				.ToList();
+				.ToListAsync();
 		}
 
-		public Plane Get(int id)
+		public async Task<Plane> Get(int id)
 		{
-			return db.PLane.Find(id);
+			return await db.PLane.FindAsync(id);
 		}
 
-		public void Delete(int id)
+		public async Task Delete(int id)
 		{
-			Plane temp = db.PLane.Find(id);
+			Plane temp = await db.PLane.FindAsync(id);
 			if (temp != null)
 			{
 				db.PLane.Remove(temp);
-				db.SaveChanges();
+				await db.SaveChangesAsync();
 			}				
 		}
 
-		public void Create(Plane item)
+		public async Task Create(Plane item)
 		{
-			db.PLane.Add(item);
-			db.SaveChanges();
+			await db.PLane.AddAsync(item);
+			await db.SaveChangesAsync();
 		}
 
-		public void Update(int id, Plane item)
+		public async Task Update(int id, Plane item)
 		{
-			Plane temp = db.PLane.Find(id);
+			Plane temp = await db.PLane.FindAsync(id);
 			if (temp != null)
 			{
 				//temp.Id = item.Id;
@@ -70,7 +70,8 @@ namespace BSA_2018_Homework_4.DAL.Repositories
 				temp.Made = item.Made;
 				temp.Exploitation = item.Exploitation;
 
-				SaveChanges();
+				db.PLane.Update(temp);
+				await db.SaveChangesAsync();
 			}
 
 			//Plane temp = db.PLane.Find(id);

@@ -6,6 +6,8 @@ using BSA_2018_Homework_4.DAL.Models;
 using BSA_2018_Homework_4.DAL.RepositoryInterfaces;
 using Newtonsoft.Json;
 using System.IO;
+using Microsoft.EntityFrameworkCore;
+
 
 namespace BSA_2018_Homework_4.DAL.Repositories
 {
@@ -30,37 +32,37 @@ namespace BSA_2018_Homework_4.DAL.Repositories
 			//	JsonConvert.SerializeObject(flights));
 		}
 
-		public List<Flight> GetAll()
+		public async Task<List<Flight>> GetAll()
 		{
-			List<Flight> test = db.Flight.ToList();
+			//List<Flight> test = db.Flight.ToList();
 
-			return db.Flight.ToList();
+			return await  db.Flight.ToListAsync();
 		}
 
-		public Flight Get(int id)
+		public async Task<Flight> Get(int id)
 		{
-			return db.Flight.Find(id);
+			return await db.Flight.FindAsync(id);
 		}
 
-		public void Delete(int id)
+		public async Task Delete(int id)
 		{
-			Flight temp = db.Flight.Find(id);
+			Flight temp = await db.Flight.FindAsync(id);
 			if (temp != null)
 			{
 				db.Flight.Remove(temp);
-				db.SaveChanges();
+				await db.SaveChangesAsync();
 			}				
 		}
 
-		public void Create(Flight item)
+		public async Task Create(Flight item)
 		{
-			db.Flight.Add(item);
-			db.SaveChanges();
+			await db.Flight.AddAsync(item);
+			await db.SaveChangesAsync();
 		}
 
-		public void Update(int id,Flight item)
+		public async Task Update(int id,Flight item)
 		{
-			Flight temp = db.Flight.Find(id);
+			Flight temp = await db.Flight.FindAsync(id);
 			if (temp != null)
 			{
 				//temp.FlightId = item.FlightNum;
@@ -70,7 +72,8 @@ namespace BSA_2018_Homework_4.DAL.Repositories
 				temp.ArrivalTime = item.ArrivalTime;
 				//temp.TicketId = item.TicketId;
 
-				SaveChanges();
+				db.Flight.Update(temp);
+				await db.SaveChangesAsync();
 			}
 
 			//Flight temp = db.Flight.Find(id);

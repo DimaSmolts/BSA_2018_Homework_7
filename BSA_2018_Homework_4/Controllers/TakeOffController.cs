@@ -22,67 +22,65 @@ namespace BSA_2018_Homework_4.Controllers
 
         // GET: api/TakeOff
         [HttpGet]
-        public IEnumerable<TakeOffDTO> Get()
+        public async Task<IActionResult> Get()
         {
-            IEnumerable<TakeOffDTO> temp = takeOffService.GetTakeOffCollection();
+            List<TakeOffDTO> temp = await takeOffService.GetTakeOffCollection();
 
 			if (temp != null)
-				Response.StatusCode = 200;
+				return Ok(temp);
 			else
-				Response.StatusCode = 404;
-
-			return temp;
+				return NotFound(temp);
 		}
 
         // GET: api/TakeOff/5
         [HttpGet("{id}")]
-        public TakeOffDTO Get(int id)
+        public async Task<IActionResult> Get(int id)
         {
-            TakeOffDTO temp = takeOffService.GetTakeOffById(id);
+            TakeOffDTO temp = await takeOffService.GetTakeOffById(id);
 
 			if (temp != null)
-				Response.StatusCode = 200;
+				return Ok(temp);
 			else
-				Response.StatusCode = 404;
-
-			return temp;
+				return NotFound(temp);
 		}
         
         // POST: api/TakeOff
         [HttpPost]
-        public void Post([FromBody]TakeOffDTO takeOff)
+        public async Task<IActionResult> Post([FromBody]TakeOffDTO takeOff)
         {
 			if (ModelState.IsValid)
 			{
-				Response.StatusCode = 200;
-				takeOffService.CreateTakeOff(takeOff);
+				//Response.StatusCode = 200;
+				await takeOffService.CreateTakeOff(takeOff);
+				return Ok(takeOff);
 			}
 			else
 			{
-				Response.StatusCode = 400;
+				return BadRequest();
 			}			
         }
         
         // PUT: api/TakeOff/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody]TakeOffDTO takeOff)
+        public async Task<IActionResult> Put(int id, [FromBody]TakeOffDTO takeOff)
         {
 			if (ModelState.IsValid)
 			{
-				Response.StatusCode = 200;
-				takeOffService.UpdateTakeOff(id, takeOff);
+				//Response.StatusCode = 200;
+				await takeOffService.UpdateTakeOff(id, takeOff);
+				return Ok(takeOff);
 			}
 			else
 			{
-				Response.StatusCode = 400;
+				return BadRequest();
 			}			
         }
         
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task Delete(int id)
         {
-			takeOffService.DeleteTakeOffById(id);
+			await takeOffService.DeleteTakeOffById(id);
         }
     }
 }

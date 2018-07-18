@@ -6,6 +6,9 @@ using BSA_2018_Homework_4.DAL.Models;
 using BSA_2018_Homework_4.DAL.RepositoryInterfaces;
 using Newtonsoft.Json;
 using System.IO;
+using Microsoft.EntityFrameworkCore;
+
+
 
 namespace BSA_2018_Homework_4.DAL.Repositories
 {
@@ -30,36 +33,36 @@ namespace BSA_2018_Homework_4.DAL.Repositories
 			//	JsonConvert.SerializeObject(pilots));
 		}
 
-		public List<Pilot> GetAll()
+		public async Task<List<Pilot>> GetAll()
 		{
-			return db.Pilot.ToList();
+			return await db.Pilot.ToListAsync();
 		}
 
-		public Pilot Get(int id)
+		public async Task<Pilot> Get(int id)
 		{
-			return db.Pilot.Find(id);
+			return await db.Pilot.FindAsync(id);
 		}
 
-		public void Delete(int id)
+		public async Task Delete(int id)
 		{
-			Pilot temp = db.Pilot.Find(id);
+			Pilot temp = await db.Pilot.FindAsync(id);
 			if (temp != null)
 			{
 				db.Pilot.Remove(temp);
-				db.SaveChanges();
+				await db.SaveChangesAsync();
 			}				
 		}
 
-		public void Create(Pilot item)
+		public async Task Create(Pilot item)
 		{
-			db.Pilot.Add(item);
-			db.SaveChanges();
+			await db.Pilot.AddAsync(item);
+			await db.SaveChangesAsync();
 			//return item;
 		}
 
-		public void Update(int id, Pilot item)
+		public async Task Update(int id, Pilot item)
 		{
-			Pilot temp = db.Pilot.Find(id);
+			Pilot temp = await db.Pilot.FindAsync(id);
 			if (temp != null)
 			{
 				//temp.Id = item.Id;
@@ -69,7 +72,7 @@ namespace BSA_2018_Homework_4.DAL.Repositories
 				temp.Experience = item.Experience;
 
 				db.Pilot.Update(temp);
-				db.SaveChanges();
+				await db.SaveChangesAsync();
 			}
 		}
 	}

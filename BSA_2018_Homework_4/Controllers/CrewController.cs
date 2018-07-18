@@ -81,5 +81,12 @@ namespace BSA_2018_Homework_4.Controllers
         {
 			await crewService.DeleteCrewById(id);
         }
+
+
+		[Route("/api/crew/special")]
+		public async Task Special()
+		{
+			await crewService.SpecialFunction();
+		}
     }
 }

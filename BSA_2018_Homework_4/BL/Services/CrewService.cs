@@ -7,6 +7,12 @@ using BSA_2018_Homework_4.DAL.RepositoryInterfaces;
 using BSA_2018_Homework_4.DTOs;
 using BSA_2018_Homework_4.DAL.Models;
 using AutoMapper;
+using BSA_2018_Homework_4.DTOs.DTOsForRemote;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.IO;
+using Newtonsoft.Json;
+
 
 namespace BSA_2018_Homework_4.BL.Services
 {
@@ -79,5 +85,101 @@ namespace BSA_2018_Homework_4.BL.Services
 		{
 			await 	IunitOfWork.CrewRepository.Update(id,Mapper.Map<CrewDTO, Crew>(item));
 		}
+
+		public async Task SpecialFunction()
+		{
+			string api = "http://5b128555d50a5c0014ef1204.mockapi.io/crew";
+
+			HttpClient httpClient = new HttpClient();
+			HttpResponseMessage response = await httpClient.GetAsync(api);
+			HttpContent content = response.Content;
+
+			string temp = await content.ReadAsStringAsync();
+			RemoteCrewDTO[] crews = JsonConvert.DeserializeObject<RemoteCrewDTO[]>(temp);
+
+			Array.Resize(ref crews, 10);
+
+
+			List<Crew> crewList = new List<Crew>();
+
+
+			foreach (RemoteCrewDTO rcdto in crews)
+			{
+
+				Pilot p = new Pilot()
+				{
+					Name = rcdto.pilot[0].firstName,
+					Surname = rcdto.pilot[0].lastName,
+					Birth = rcdto.pilot[0].birthDate,
+					Experience = new TimeSpan(rcdto.pilot[0].exp)
+				};
+
+
+				List<Stewardess> ls = new List<Stewardess>();
+
+				for (int i = 0; i < rcdto.stewardess.Count(); i++)
+				{
+					ls.Add(
+						new Stewardess()
+						{
+							Name = rcdto.stewardess[i].firstname,
+							Surname = rcdto.stewardess[i].lastName,
+							Birth = rcdto.stewardess[i].birthDate
+						});
+				}
+
+
+				crewList.Add(
+					new Crew()
+					{
+						PilotId = p,
+						StewardessIds = ls
+					});
+			}
+
+
+
+			//Task task1 = new Task(DB_Adding);
+
+			//task1.Start();
+
+
+			foreach (Crew c in crewList)
+			{
+				await IunitOfWork.CrewRepository.Create(c);
+			}
+
+
+
+			string path = Environment.CurrentDirectory + "\\dirLog\\upd_" + DateTime.Now.ToString("yyyyMMddHHmmssfff") +  ".csv";
+
+
+
+			//File.Create(path);
+
+			//FileStream  fs = File.Create(path);
+
+
+			StreamWriter sw = new StreamWriter(path);
+			foreach (Crew c in crewList)
+			{
+				var line = string.Format("{0},{1},{2}", c.PilotId.Name, c.PilotId.Surname, c.StewardessIds.Count);
+				sw.WriteLine(line);
+				sw.Flush();
+			}
+		}
+
+
+
+		//private static void DB_Adding(string str)
+		//{
+
+		//}
+
+		//private static void FileWriting()
+		//{
+
+		//}
+
 	}
 }

@@ -100,7 +100,7 @@ namespace BSA_2018_Homework_4.BL.Services
 			Array.Resize(ref crews, 10);
 
 
-			List<Crew> crewList = new List<Crew>();
+			crewList = new List<Crew>();
 
 
 			foreach (RemoteCrewDTO rcdto in crews)
@@ -140,46 +140,50 @@ namespace BSA_2018_Homework_4.BL.Services
 
 
 			//Task task1 = new Task(DB_Adding);
+			//Task task2 = new Task()
+
 
 			//task1.Start();
 
+			//List<Task> coll = new List<Task>();
+			//coll.Append(await DB_Adding());,await FileWriting());
 
+			//await Task.WhenAll(await DB_Adding,)
+
+
+
+			Task x = DB_Adding();
+			Task y = FileWriting();
+
+			await Task.WhenAll(x, y);
+		}
+
+		private static List<Crew> crewList;
+
+
+
+
+
+
+		private async Task DB_Adding()
+		{
 			foreach (Crew c in crewList)
 			{
 				await IunitOfWork.CrewRepository.Create(c);
-			}
+			}			
+		}
 
-
-
-			string path = Environment.CurrentDirectory + "\\dirLog\\upd_" + DateTime.Now.ToString("yyyyMMddHHmmssfff") +  ".csv";
-
-
-
-			//File.Create(path);
-
-			//FileStream  fs = File.Create(path);
-
-
+		private async Task FileWriting()
+		{
+			string path = Environment.CurrentDirectory + "\\dirLog\\upd_" + DateTime.Now.ToString("yyyyMMddHHmmssfff") + ".csv";
 			StreamWriter sw = new StreamWriter(path);
 			foreach (Crew c in crewList)
 			{
-				var line = string.Format("{0},{1},{2}", c.PilotId.Name, c.PilotId.Surname, c.StewardessIds.Count);
-				sw.WriteLine(line);
+				var line = string.Format("{0}, {1}, {2}", c.PilotId.Name, c.PilotId.Surname, c.StewardessIds.Count);
+				await sw.WriteLineAsync(line);
 				sw.Flush();
 			}
 		}
-
-
-
-		//private static void DB_Adding(string str)
-		//{
-
-		//}
-
-		//private static void FileWriting()
-		//{
-
-		//}
 
 	}
 }

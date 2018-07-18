@@ -38,6 +38,7 @@ namespace BSA_2018_Homework_4.BL.Services
 
 		public async Task<List<FlightDTO>> GetFlightCollection()
 		{
+			await Task.Delay(5000);
 			return Mapper.Map<List<Flight>, List<FlightDTO>>(await IunitOfWork.FlightRepository.GetAll());
 		}
 

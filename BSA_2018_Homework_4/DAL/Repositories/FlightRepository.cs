@@ -7,6 +7,7 @@ using BSA_2018_Homework_4.DAL.RepositoryInterfaces;
 using Newtonsoft.Json;
 using System.IO;
 using Microsoft.EntityFrameworkCore;
+using System.Timers;
 
 
 namespace BSA_2018_Homework_4.DAL.Repositories
@@ -34,8 +35,6 @@ namespace BSA_2018_Homework_4.DAL.Repositories
 
 		public async Task<List<Flight>> GetAll()
 		{
-			//List<Flight> test = db.Flight.ToList();
-
 			return await  db.Flight.ToListAsync();
 		}
 

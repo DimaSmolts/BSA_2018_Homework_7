@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using BSA_2018_Homework_4.BL.ServiceInterfaces;
 using BSA_2018_Homework_4.DAL.RepositoryInterfaces;
 using BSA_2018_Homework_4.DTOs;
+using BSA_2018_Homework_4.DTOs.InputDTOs;
 using BSA_2018_Homework_4.DAL.Models;
 using AutoMapper;
 
@@ -58,25 +59,34 @@ namespace BSA_2018_Homework_4.BL.Services
 		{
 			await IunitOfWork.PlaneRepository.Delete(id);
 		}
-		public async Task CreatePlane(PlaneDTO item)
+		public async Task CreatePlane(InputPlaneDTO item)
 		{
-			//Plane temp = Mapper.Map<PlaneDTO, Plane>(item);
-			//temp.Type = IunitOfWork.PlaneTypeRepository.Get(item.Type);
-			//if(temp.Type != null)
-			//{
-			//	IunitOfWork.PlaneRepository.Create(temp);
-			//}
-			//else
-			//{
-			//	throw new Exception();
-			//}
+			Plane temp = Mapper.Map<InputPlaneDTO, Plane>(item);
+			temp.Type = await IunitOfWork.PlaneTypeRepository.Get(item.Type);
+			if (temp.Type != null)
+			{
+				await IunitOfWork.PlaneRepository.Create(temp);
+			}
+			else
+			{
+				throw new Exception();
+			}
 
-			await IunitOfWork.PlaneRepository.Create(Mapper.Map<PlaneDTO, Plane>(item));
+			//await IunitOfWork.PlaneRepository.Create(Mapper.Map<PlaneDTO, Plane>(item));
 
 		}
-		public async Task UpdatePlane(int id, PlaneDTO item)
+		public async Task UpdatePlane(int id, InputPlaneDTO item)
 		{
-			await IunitOfWork.PlaneRepository.Update(id, Mapper.Map<PlaneDTO, Plane>(item));
+			Plane temp = Mapper.Map<InputPlaneDTO, Plane>(item);
+			temp.Type = await IunitOfWork.PlaneTypeRepository.Get(item.Type);
+			if (temp.Type != null)
+			{
+				await IunitOfWork.PlaneRepository.Update(id, temp);
+			}
+			else
+			{
+				throw new Exception();
+			}		
 		}
 
 	}

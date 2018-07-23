@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using BSA_2018_Homework_4.BL.ServiceInterfaces;
 using BSA_2018_Homework_4.DTOs;
+using BSA_2018_Homework_4.DTOs.InputDTOs;
 
 namespace BSA_2018_Homework_4.Controllers
 { 
@@ -46,7 +47,7 @@ namespace BSA_2018_Homework_4.Controllers
         
         // POST: api/Crew
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody]CrewDTO crew)
+        public async Task<IActionResult> Post([FromBody]InputCrewDTO crew)
         {
 			if (ModelState.IsValid)
 			{				
@@ -61,7 +62,7 @@ namespace BSA_2018_Homework_4.Controllers
         
         // PUT: api/Crew/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(int id, [FromBody]CrewDTO crew)
+        public async Task<IActionResult> Put(int id, [FromBody]InputCrewDTO crew)
         {
 			if (ModelState.IsValid)
 			{

@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using BSA_2018_Homework_4.BL.ServiceInterfaces;
 using BSA_2018_Homework_4.DTOs;
+using BSA_2018_Homework_4.DTOs.InputDTOs;
 
 namespace BSA_2018_Homework_4.Controllers
 {
@@ -45,7 +46,7 @@ namespace BSA_2018_Homework_4.Controllers
         
         // POST: api/Ticket
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody]TicketDTO ticket)
+        public async Task<IActionResult> Post([FromBody]InputTicketDTO ticket)
         {
 			if (ModelState.IsValid)
 			{				
@@ -60,7 +61,7 @@ namespace BSA_2018_Homework_4.Controllers
         
         // PUT: api/Ticket/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(int id, [FromBody]TicketDTO ticket)
+        public async Task<IActionResult> Put(int id, [FromBody]InputTicketDTO ticket)
         {
 			if (ModelState.IsValid)
 			{

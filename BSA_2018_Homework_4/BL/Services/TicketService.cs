@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using BSA_2018_Homework_4.BL.ServiceInterfaces;
 using BSA_2018_Homework_4.DAL.RepositoryInterfaces;
 using BSA_2018_Homework_4.DTOs;
+using BSA_2018_Homework_4.DTOs.InputDTOs;
 using BSA_2018_Homework_4.DAL.Models;
 using AutoMapper;
 
@@ -58,27 +59,36 @@ namespace BSA_2018_Homework_4.BL.Services
 		{
 			await IunitOfWork.TicketRepository.Delete(id);
 		}
-		public async Task CreateTicket(TicketDTO item)
+		public async Task CreateTicket(InputTicketDTO item)
 		{
-			//Ticket temp = Mapper.Map<TicketDTO, Ticket>(item);
-			//temp.FlightNum = IunitOfWork.FlightRepository.Get(item.FlightNum);
-			//if(temp.FlightNum != null)
-			//{
-			//	IunitOfWork.TicketRepository.Create(temp);
-			//}
-			//else
-			//{
-			//	throw new Exception();
-			//}
+			Ticket temp = Mapper.Map<InputTicketDTO, Ticket>(item);
+			temp.FlightNum = await IunitOfWork.FlightRepository.Get(item.FlightNum);
+			if (temp.FlightNum != null)
+			{
+				await IunitOfWork.TicketRepository.Create(temp);
+			}
+			else
+			{
+				throw new Exception();
+			}
 
-			await IunitOfWork.TicketRepository.Create(Mapper.Map<TicketDTO, Ticket>(item));
+			//await IunitOfWork.TicketRepository.Create(Mapper.Map<TicketDTO, Ticket>(item));
 
 
-			
+
 		}
-		public async Task UpdateTicket(int id, TicketDTO item)
+		public async Task UpdateTicket(int id, InputTicketDTO item)
 		{
-			await IunitOfWork.TicketRepository.Update(id, Mapper.Map<TicketDTO, Ticket>(item));
+			Ticket temp = Mapper.Map<InputTicketDTO, Ticket>(item);
+			temp.FlightNum = await IunitOfWork.FlightRepository.Get(item.FlightNum);
+			if (temp.FlightNum != null)
+			{
+				await IunitOfWork.TicketRepository.Update(id, temp);
+			}
+			else
+			{
+				throw new Exception();
+			}
 		}
 	}
 }

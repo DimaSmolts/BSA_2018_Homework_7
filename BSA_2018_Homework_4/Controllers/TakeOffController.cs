@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using BSA_2018_Homework_4.BL.ServiceInterfaces;
 using BSA_2018_Homework_4.DTOs;
+using BSA_2018_Homework_4.DTOs.InputDTOs;
 
 namespace BSA_2018_Homework_4.Controllers
 {
@@ -46,7 +47,7 @@ namespace BSA_2018_Homework_4.Controllers
         
         // POST: api/TakeOff
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody]TakeOffDTO takeOff)
+        public async Task<IActionResult> Post([FromBody]InputTakeOffDTO takeOff)
         {
 			if (ModelState.IsValid)
 			{
@@ -62,7 +63,7 @@ namespace BSA_2018_Homework_4.Controllers
         
         // PUT: api/TakeOff/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(int id, [FromBody]TakeOffDTO takeOff)
+        public async Task<IActionResult> Put(int id, [FromBody]InputTakeOffDTO takeOff)
         {
 			if (ModelState.IsValid)
 			{

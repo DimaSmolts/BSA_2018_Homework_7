@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using BSA_2018_Homework_4.BL.ServiceInterfaces;
 using BSA_2018_Homework_4.DAL.RepositoryInterfaces;
 using BSA_2018_Homework_4.DTOs;
+using BSA_2018_Homework_4.DTOs.InputDTOs;
 using BSA_2018_Homework_4.DAL.Models;
 using AutoMapper;
 using BSA_2018_Homework_4.DTOs.DTOsForRemote;
@@ -26,31 +27,35 @@ namespace BSA_2018_Homework_4.BL.Services
 			this.IunitOfWork = IunitOfWork;
 		}
 
-		public async Task CreateCrew(CrewDTO item)
+		public async Task CreateCrew(InputCrewDTO item)
 		{
-			//Crew temp = new Crew();
-			//temp.PilotId = IunitOfWork.PilotRepository.Get(item.PilotId);
+			Crew temp = new Crew();
+			temp.PilotId = await IunitOfWork.PilotRepository.Get(item.PilotId);
 
-			//List<Stewardess> tempS = IunitOfWork.StewardessRepository.GetAll();
-			//List<Stewardess> selected = new List<Stewardess>();
-			//foreach (Stewardess s in tempS)
-			//{
-			//	foreach (int i in item.StewardessIds)
-			//	{
-			//		if (s.Id == i)
-			//			selected.Add(s);
-			//}
+			List<Stewardess> tempS = await IunitOfWork.StewardessRepository.GetAll();
+			List<Stewardess> selected = new List<Stewardess>();
+			foreach (Stewardess s in tempS)
+			{
+				foreach (int i in item.StewardessIds)
+				{
+					if (s.Id == i)
+						selected.Add(s);
+				}
 
-			//}
-			//temp.StewardessIds = selected;
+			}
+			temp.StewardessIds = selected;
 
-			//if (temp.StewardessIds.Count == item.StewardessIds.Count() && temp.PilotId != null)
-			//{
-			//	IunitOfWork.CrewRepository.Create(temp);
-			//}			
+			if (temp.StewardessIds.Count == item.StewardessIds.Count() && temp.PilotId != null)
+			{
+				await IunitOfWork.CrewRepository.Create(temp);
+			}
+			else
+			{
+				throw new Exception();
+			}
 
 
-			await IunitOfWork.CrewRepository.Create(Mapper.Map<CrewDTO,Crew>(item));
+			//await IunitOfWork.CrewRepository.Create(Mapper.Map<InputCrewDTO,Crew>(item));
 
 		}
 
@@ -81,9 +86,32 @@ namespace BSA_2018_Homework_4.BL.Services
 			return Mapper.Map<List<Crew>, List<CrewDTO>>(await IunitOfWork.CrewRepository.GetAll());// crewDTOs;
 		}
 
-		public async Task UpdateCrew(int id, CrewDTO item)
+		public async Task UpdateCrew(int id, InputCrewDTO item)
 		{
-			await 	IunitOfWork.CrewRepository.Update(id,Mapper.Map<CrewDTO, Crew>(item));
+			Crew temp = new Crew();
+			temp.PilotId = await IunitOfWork.PilotRepository.Get(item.PilotId);
+
+			List<Stewardess> tempS = await IunitOfWork.StewardessRepository.GetAll();
+			List<Stewardess> selected = new List<Stewardess>();
+			foreach (Stewardess s in tempS)
+			{
+				foreach (int i in item.StewardessIds)
+				{
+					if (s.Id == i)
+						selected.Add(s);
+				}
+
+			}
+			temp.StewardessIds = selected;
+
+			if (temp.StewardessIds.Count == item.StewardessIds.Count() && temp.PilotId != null)
+			{
+				await IunitOfWork.CrewRepository.Update(id, temp);
+			}
+			else
+			{
+				throw new Exception();
+			}
 		}
 
 		public async Task SpecialFunction()

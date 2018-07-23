@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using BSA_2018_Homework_4.DTOs;
+using BSA_2018_Homework_4.DTOs.InputDTOs;
 
 namespace BSA_2018_Homework_4.BL.ServiceInterfaces
 {
@@ -11,7 +12,7 @@ namespace BSA_2018_Homework_4.BL.ServiceInterfaces
 		Task<List<TicketDTO>> GetTicketCollection();
 		Task<TicketDTO> GetTicketById(int id);
 		Task DeleteTicketById(int id);
-		Task CreateTicket(TicketDTO item);
-		Task UpdateTicket(int id, TicketDTO item);
+		Task CreateTicket(InputTicketDTO item);
+		Task UpdateTicket(int id, InputTicketDTO item);
 	}
 }

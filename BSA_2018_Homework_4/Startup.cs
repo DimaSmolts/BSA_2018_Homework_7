@@ -106,6 +106,20 @@ namespace BSA_2018_Homework_4
 
 				cfg.CreateMap<DAL.Models.PlaneType, DTOs.PlaneTypeDTO>();
 				cfg.CreateMap<DTOs.PlaneTypeDTO, DAL.Models.PlaneType>();
+
+
+
+				// maps for input DTO`s
+				// i should also delete some higher
+
+
+				cfg.CreateMap<DTOs.InputDTOs.InputCrewDTO, DAL.Models.Crew>();
+				cfg.CreateMap<DTOs.InputDTOs.InputPlaneDTO, DAL.Models.Plane>();
+				cfg.CreateMap<DTOs.InputDTOs.InputTakeOffDTO, DAL.Models.TakeOff>();
+				cfg.CreateMap<DTOs.InputDTOs.InputTicketDTO, DAL.Models.Ticket>();
+
+
+
 			});
 
 			services.AddMvc();

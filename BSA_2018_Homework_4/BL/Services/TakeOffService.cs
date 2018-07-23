@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using BSA_2018_Homework_4.BL.ServiceInterfaces;
 using BSA_2018_Homework_4.DAL.RepositoryInterfaces;
 using BSA_2018_Homework_4.DTOs;
+using BSA_2018_Homework_4.DTOs.InputDTOs;
 using BSA_2018_Homework_4.DAL.Models;
 using AutoMapper;
 
@@ -19,22 +20,26 @@ namespace BSA_2018_Homework_4.BL.Services
 			this.IunitOfWork = IunitOfWork;
 		}
 
-		public async Task CreateTakeOff(TakeOffDTO item)
+		public async Task CreateTakeOff(InputTakeOffDTO item)
 		{
-			//TakeOff temp = Mapper.Map<TakeOffDTO, TakeOff>(item);
-			//temp.CrewId = IunitOfWork.CrewRepository.Get(item.CrewId);
+			TakeOff temp = Mapper.Map<InputTakeOffDTO, TakeOff>(item);
+			temp.CrewId = await IunitOfWork.CrewRepository.Get(item.CrewId);
 
-			//temp.FlightNum = IunitOfWork.FlightRepository.Get(item.FlightNum);
+			temp.FlightNum = await IunitOfWork.FlightRepository.Get(item.FlightNum);
 
-			//temp.PlaneId = IunitOfWork.PlaneRepository.Get(item.PlaneId);
+			temp.PlaneId = await IunitOfWork.PlaneRepository.Get(item.PlaneId);
 
-			//if(temp.CrewId != null && temp.PlaneId != null && temp.FlightNum != null)
-			//{
-			//	IunitOfWork.TakeOffRepository.Create(temp);
-			//}		
+			if (temp.CrewId != null && temp.PlaneId != null && temp.FlightNum != null)
+			{
+				await IunitOfWork.TakeOffRepository.Create(temp);
+			}
+			else
+			{
+				throw new Exception();
+			}
 
 
-			await IunitOfWork.TakeOffRepository.Create(Mapper.Map<TakeOffDTO, TakeOff>(item));
+			//await IunitOfWork.TakeOffRepository.Create(Mapper.Map<InputTakeOffDTO, TakeOff>(item));
 
 		}
 
@@ -63,9 +68,23 @@ namespace BSA_2018_Homework_4.BL.Services
 			return Mapper.Map<List<TakeOff>, List<TakeOffDTO>>(await IunitOfWork.TakeOffRepository.GetAll());
 		}
 
-		public async Task UpdateTakeOff(int id, TakeOffDTO item)
+		public async Task UpdateTakeOff(int id, InputTakeOffDTO item)
 		{
-			await IunitOfWork.TakeOffRepository.Update(id, Mapper.Map<TakeOffDTO, TakeOff>(item));
+			TakeOff temp = Mapper.Map<InputTakeOffDTO, TakeOff>(item);
+			temp.CrewId = await IunitOfWork.CrewRepository.Get(item.CrewId);
+
+			temp.FlightNum = await IunitOfWork.FlightRepository.Get(item.FlightNum);
+
+			temp.PlaneId = await IunitOfWork.PlaneRepository.Get(item.PlaneId);
+
+			if (temp.CrewId != null && temp.PlaneId != null && temp.FlightNum != null)
+			{
+				await IunitOfWork.TakeOffRepository.Update(id, temp);
+			}
+			else
+			{
+				throw new Exception();
+			}
 		}
 	}
 }

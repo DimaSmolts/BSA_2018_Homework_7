@@ -78,7 +78,7 @@ namespace BSA_2018_Homework_4.DAL.Repositories
 			Crew temp = await db.Crew.FindAsync(id);
 			if (temp != null)
 			{
-					temp.Id = item.Id;
+					//temp.Id = item.Id;
 					temp.PilotId = item.PilotId;
 					temp.StewardessIds = item.StewardessIds;
 

@@ -10,6 +10,8 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Cors.Internal;
 
 namespace BSA_2018_Homework_4
 {
@@ -60,9 +62,24 @@ namespace BSA_2018_Homework_4
 			var connection = @"Server=DESKTOP-DMYTRO\SQLEXPRESS;Initial Catalog=Academy;Trusted_Connection=True;ConnectRetryCount=0";
 			services.AddDbContext<DAL.MyContext>(options => options.UseSqlServer(connection));
 			//var migrationsAssembly = typeof(Startup).GetTypeInfo().Assembly.GetName().Name;
-
-
 			services.AddSingleton<DAL.IUnitOfWork, DAL.UnitOfWork>();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 			Mapper.Initialize(cfg =>
 			{
@@ -123,7 +140,19 @@ namespace BSA_2018_Homework_4
 			});
 
 			services.AddMvc();
-        }
+
+
+
+			services.AddCors(options =>
+			{
+				options.AddPolicy("AllowAllOrigin", builder => builder.AllowAnyOrigin());
+			});
+			services.Configure<MvcOptions>(options =>
+			{
+				options.Filters.Add(new CorsAuthorizationFilterFactory("AllowAllOrigin"));
+			});
+
+		}
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)

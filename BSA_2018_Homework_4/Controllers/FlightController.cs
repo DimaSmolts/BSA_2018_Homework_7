@@ -23,7 +23,7 @@ namespace BSA_2018_Homework_4.Controllers
 		[HttpGet]
 		public async Task<IActionResult> Get()
 		{
-			List<FlightDTO> temp = await flightService.GetFlightCollection();
+			 List<FlightDTO> temp = await flightService.GetFlightCollection();
 
 			if (temp != null)
 				return Ok(temp);

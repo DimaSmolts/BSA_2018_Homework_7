@@ -145,7 +145,7 @@ namespace BSA_2018_Homework_4
 
 			services.AddCors(options =>
 			{
-				options.AddPolicy("AllowAllOrigin", builder => builder.AllowAnyOrigin());
+				options.AddPolicy("AllowAllOrigin", builder => builder.WithOrigins("http://localhost:4200").AllowAnyMethod().AllowAnyHeader());
 			});
 			services.Configure<MvcOptions>(options =>
 			{

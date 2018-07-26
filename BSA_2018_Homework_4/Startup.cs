@@ -130,10 +130,17 @@ namespace BSA_2018_Homework_4
 				// i should also delete some higher
 
 
-				cfg.CreateMap<DTOs.InputDTOs.InputCrewDTO, DAL.Models.Crew>();
-				cfg.CreateMap<DTOs.InputDTOs.InputPlaneDTO, DAL.Models.Plane>();
-				cfg.CreateMap<DTOs.InputDTOs.InputTakeOffDTO, DAL.Models.TakeOff>();
-				cfg.CreateMap<DTOs.InputDTOs.InputTicketDTO, DAL.Models.Ticket>();
+				cfg.CreateMap<DTOs.InputDTOs.InputCrewDTO, DAL.Models.Crew>()
+				.ForMember(dto => dto.PilotId, c => c.Ignore())
+				.ForMember(dto => dto.StewardessIds, c => c.Ignore());
+				cfg.CreateMap<DTOs.InputDTOs.InputPlaneDTO, DAL.Models.Plane>()
+				.ForMember(dto => dto.Type, pl => pl.Ignore());
+				cfg.CreateMap<DTOs.InputDTOs.InputTakeOffDTO, DAL.Models.TakeOff>()
+				.ForMember(dto => dto.FlightNum, to => to.Ignore())
+				.ForMember(dto => dto.PlaneId, to => to.Ignore())
+				.ForMember(dto => dto.CrewId, to => to.Ignore());
+				cfg.CreateMap<DTOs.InputDTOs.InputTicketDTO, DAL.Models.Ticket>()
+				.ForMember(dto => dto.FlightNum, t => t.Ignore());
 
 
 
